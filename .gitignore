@@ -137,6 +137,9 @@ env.bak/
 venv.bak/
 .postgres/
 
+# Docker Compose 
+docker-compose.yml
+
 # Spyder project settings
 .spyderproject
 .spyproject

@@ -10,16 +10,6 @@
     <a class="btn btn-primary" href="{{ url_for('index') }}">Home</a>
   </li>
 
-  <!-- ปุ่มแก้ไขและลบแท็ก -->
-  <li class="nav-item">
-    <a href="{{ url_for('tags_edit', tag_id=tag.id) }}" class="btn btn-sm btn-warning">Edit Tag</a>
-  </li>
-  <li class="nav-item">
-    <form action="{{ url_for('tags_delete', tag_id=tag.id) }}" method="POST" style="display:inline;">
-      <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete this tag?');">Delete
-        Tag</button>
-    </form>
-  </li>
 </ul>
 
 {% for note in notes %}
@@ -40,10 +30,35 @@
       {% endif %}
       <br>
       Last update: {{ note.updated_date.strftime('%Y-%m-%d %H:%M') }}
+      <!-- ปุ่มแก้ไขและลบแท็ก -->
+      <a href="{{ url_for('tags_edit', tag_id=tag.id) }}" class="btn btn-sm btn-warning ms-2">Edit Tag</a>
     </div>
   </div>
 </div>
 {% else %}
 <p class="text-center text-muted mt-4">No notes found for this tag.</p>
 {% endfor %}
+
+<!-- ส่วนแสดง Tags ที่สามารถลบได้ -->
+{% if deletable_tags|length > 0 %}
+<div class="card mt-5">
+  <div class="card-header bg-danger text-white">
+    Tags Available for Deletion
+  </div>
+  <div class="card-body">
+    {% for dtag in deletable_tags %}
+    <div class="d-flex align-items-center justify-content-between mb-2">
+      <span class="badge bg-danger fs-6">{{ dtag.name }}</span>
+      <form action="{{ url_for('tags_delete', tag_id=dtag.id) }}" method="POST"
+        onsubmit="return confirm('Delete this tag?');" style="margin:0;">
+        <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+      </form>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% else %}
+<p class="text-muted mt-5 text-center">No deletable tags available.</p>
+{% endif %}
+
 {% endblock %}

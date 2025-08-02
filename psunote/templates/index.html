@@ -30,15 +30,23 @@
 
     <div class="card-footer bg-light text-muted">
       Tags:
+      {% if note.tags %}
+      {% for t in note.tags %}
+      <span class="badge bg-success me-1 fs-6">{{ t.name }}</span>
+      {% endfor %}
+      {% else %}
+      <span class="text-muted">No tags</span>
+      {% endif %}
+      <br>
+      Last updated: {{ note.updated_date.strftime('%Y-%m-%d %H:%M') }}
       {% for t in note.tags %}
       <form method="GET" action="{{ url_for('tags_view', tag_name=t.name) }}" style="display:inline;">
-        <button type="submit" class="btn btn-sm btn-outline-success">{{ t.name }}</button>
+        <button type="submit" class="btn btn-sm btn-outline-success">View Tag</button>
       </form>
       {% else %}
       <span class="text-muted">No tags</span>
       {% endfor %}
-      <br>
-      Last updated: {{ note.updated_date.strftime('%Y-%m-%d %H:%M') }}
+
     </div>
 
   </div>

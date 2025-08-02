@@ -15,7 +15,7 @@ class TagListField(Field):
     def process_formdata(self, valuelist):
         data = []
         if valuelist:
-            data = [x.strip() for x in valuelist[0].split(",")]
+            data = [x.strip() for x in valuelist[0].split(",") if x.strip()]
 
         if not self.remove_duplicates:
             self.data = data
@@ -33,8 +33,11 @@ class TagListField(Field):
             return ""
 
 BaseNoteForm = model_form(
-    models.Note, base_class=FlaskForm, exclude=["created_date", "updated_date"], db_session=models.db.session
+    models.Note,
+    base_class=FlaskForm,
+    exclude=["created_date", "updated_date"],
+    db_session=models.db.session,
 )
 
 class NoteForm(BaseNoteForm):
-    tags = TagListField("Tag")
+    tags = TagListField("Tags")

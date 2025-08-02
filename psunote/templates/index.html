@@ -12,20 +12,11 @@
     <div class="card-text my-3">
       {{ note.description }}
     </div>
-
-    <!-- ✅ ปุ่ม Edit และ Delete -->
-    <div class="my-2">
-      <a class="btn btn-sm btn-warning" href="{{ url_for('notes_edit', note_id=note.id) }}">Edit</a>
-      <form action="{{ url_for('notes_delete', note_id=note.id) }}" method="post" style="display:inline;">
-        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
-      </form>
-    </div>
-
     <div class="card-footer text-muted">
-      Tags:
+      Tags: 
       {% for t in note.tags %}
-      <a href="{{ url_for('tags_view', tag_name=t.name) }}">{{ t.name }}</a>
-      {% endfor %}
+        <a href="{{ url_for('tags_view', tag_name=t.name) }}">{{ t.name }}</a>
+    {% endfor %}
       <br>
       Last update: {{ note.updated_date }}
     </div>
@@ -33,3 +24,4 @@
 </div>
 {% endfor %}
 {% endblock %}
+

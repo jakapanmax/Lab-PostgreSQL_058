@@ -1,12 +1,9 @@
 from wtforms_sqlalchemy.orm import model_form
 from flask_wtf import FlaskForm
-from wtforms import Field, widgets, StringField
-from wtforms.validators import DataRequired
+from wtforms import Field, widgets
 
 import models
 
-class TagForm(FlaskForm):
-    name = StringField("Tag Name", validators=[DataRequired()])
 
 class TagListField(Field):
     widget = widgets.TextInput()
@@ -38,10 +35,9 @@ class TagListField(Field):
 
 
 BaseNoteForm = model_form(
-
     models.Note, base_class=FlaskForm, exclude=["created_date", "updated_date"], db_session=models.db.session
-
 )
+
 
 class NoteForm(BaseNoteForm):
     tags = TagListField("Tag")

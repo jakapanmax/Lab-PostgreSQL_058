@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<div class="container" style="max-width: 600px; margin-top: 2rem;">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Edit Note</h4>
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                {{ form.hidden_tag() }}
+
+                <div class="mb-3">
+                    {{ form.title.label(class="form-label") }}
+                    {{ form.title(class="form-control", placeholder="Enter note title") }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.description.label(class="form-label") }}
+                    {{ form.description(class="form-control", rows="5", placeholder="Enter note description") }}
+                </div>
+
+                <div class="mb-3" style="display: none;">
+                    {{ form.tags.label(class="form-label") }}
+                    {{ form.tags(class="form-control") }}
+                </div>
+
+
+                <div class="d-flex justify-content-between">
+                    <a href="{{ url_for('index') }}" class="btn btn-secondary">
+                        ← Back
+                    </a>
+                    <button type="submit" class="btn btn-success">
+                        Update Note
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

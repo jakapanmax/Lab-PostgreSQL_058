@@ -1,27 +1,48 @@
 {% extends 'base.html' %}
 {% block body %}
-<ul class="nav justify-content-center" style="padding-top: 1em;">
-  <li class="nav-item">
-    <a class="btn btn-primary" href="{{ url_for('notes_create') }}">Create</a>
-  </li>
-</ul>
-{% for note in notes %}
-<div class="card my-3">
-  <div class="card-body">
-    <h4 class="card-title">{{ note.title }}</h4>
-    <div class="card-text my-3">
-      {{ note.description }}
-    </div>
-    <div class="card-footer text-muted">
-      Tags: 
-      {% for t in note.tags %}
-        <a href="{{ url_for('tags_view', tag_name=t.name) }}">{{ t.name }}</a>
-    {% endfor %}
-      <br>
-      Last update: {{ note.updated_date }}
-    </div>
-  </div>
-</div>
-{% endfor %}
-{% endblock %}
 
+<!-- ใช้ container แบบ local เฉพาะในหน้านี้ -->
+<div style="max-width: 800px; margin: auto; padding: 2em;">
+
+  <!-- ปุ่มสร้าง -->
+  <div class="text-center mb-4">
+    <a class="btn btn-primary btn-lg" href="{{ url_for('notes_create') }}">Create New Note</a>
+  </div>
+
+  {% for note in notes %}
+  <div class="card mb-4 shadow-sm">
+    <div class="card-body">
+      <h4 class="card-title">{{ note.title }}</h4>
+      <small class="text-muted">Created: {{ note.created_date.strftime('%Y-%m-%d %H:%M') }}</small>
+
+      <p class="card-text mt-3">{{ note.description }}</p>
+
+      <!-- ปุ่มแก้ไข / ลบ -->
+      <div class="mt-3">
+        <a href="{{ url_for('notes_edit', note_id=note.id) }}" class="btn btn-sm btn-outline-warning">Edit Note</a>
+
+        <form action="{{ url_for('notes_delete', note_id=note.id) }}" method="POST" style="display:inline;"
+          onsubmit="return confirm('Delete this note?');">
+          <button type="submit" class="btn btn-sm btn-outline-danger">Delete Note</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="card-footer bg-light text-muted">
+      Tags:
+      {% for t in note.tags %}
+      <form method="GET" action="{{ url_for('tags_view', tag_name=t.name) }}" style="display:inline;">
+        <button type="submit" class="btn btn-sm btn-outline-success">{{ t.name }}</button>
+      </form>
+      {% else %}
+      <span class="text-muted">No tags</span>
+      {% endfor %}
+      <br>
+      Last updated: {{ note.updated_date.strftime('%Y-%m-%d %H:%M') }}
+    </div>
+
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

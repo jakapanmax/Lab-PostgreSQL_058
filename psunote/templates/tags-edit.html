@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container" style="max-width: 480px; margin-top: 2rem;">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Edit Tag</h4>
+        </div>
+        <div class="card-body">
+            <form method="POST" novalidate>
+                <div class="mb-3">
+                    <label for="name" class="form-label">Tag Name</label>
+                    <input type="text" class="form-control" id="name" name="name" value="{{ tag.name }}"
+                        placeholder="Enter tag name" required>
+                </div>
+                {% if error %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+                {% endif %}
+                <div class="d-flex justify-content-between">
+                    <a href="{{ url_for('tags_view', tag_name=tag.name) }}" class="btn btn-secondary">← Back to Tag</a>
+                    <button type="submit" class="btn btn-success">Update Tag</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

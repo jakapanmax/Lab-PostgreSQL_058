@@ -6,7 +6,16 @@
     <a class="btn btn-primary" href="{{ url_for('index') }}">Home</a>
   </li>
   <li class="nav-item">
-    <div class="btn btn-disagle">{{ tag }}</div>
+    <div class="btn btn-secondary disabled">{{ tag_name }}</div>
+  </li>
+  <li class="nav-item">
+    <a class="btn btn-warning mx-1" href="{{ url_for('tags_edit', tag_name=tag_name) }}">Edit Tag</a>
+  </li>
+  <li class="nav-item">
+    <form method="POST" action="{{ url_for('tags_delete', tag_name=tag_name) }}"
+      onsubmit="return confirm('Are you sure to delete this tag?');">
+      <button type="submit" class="btn btn-danger mx-1">Delete Tag</button>
+    </form>
   </li>
 </ul>
 {% for note in notes %}
@@ -16,10 +25,17 @@
     <div class="card-text my-3">
       {{ note.description }}
     </div>
+    <div>
+      <a class="btn btn-sm btn-warning" href="{{ url_for('notes_edit', note_id=note.id) }}">Edit</a>
+      <form method="POST" action="{{ url_for('notes_delete', note_id=note.id) }}" style="display:inline;"
+        onsubmit="return confirm('Delete this note?');">
+        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+      </form>
+    </div>
     <div class="card-footer text-muted">
-      Tags: 
+      Tags:
       {% for t in note.tags %}
-        <a href="{{ url_for('tags_view', tag_name=t.name) }}">{{ t.name }}</a>,
+      <a href="{{ url_for('tags_view', tag_name=t.name) }}">{{ t.name }}</a>,
       {% endfor %}
       <br>
       Last update: {{ note.updated_date }}
@@ -28,4 +44,3 @@
 </div>
 {% endfor %}
 {% endblock %}
-
